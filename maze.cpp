@@ -2,6 +2,8 @@
 #include "file.h"
 #include "Util.h"
 #include <iostream>
+#include <vector>
+#include <string>
 #include <conio.h>
 
 maze::maze() // do not move this implementation, will cause linker error 2005
@@ -46,7 +48,22 @@ maze::maze() // do not move this implementation, will cause linker error 2005
 
 maze::~maze()
 {
-    //implementation to save whenever class is destroyed
+    //Whenever the maze object is destroyed(exited or by force), a copy of the users position and map seed are
+    //saved. These can then be recalled in a serialized manner to bring the user back to the last state
+
+    std::vector<std::string> keyVector, dataVector;//These will hold the keys for the data map to be exported
+
+    //serialization for seed variable
+    keyVector.push_back(Util::getSerialID(seed));//gets the serial ID for the map seed then adds an entry for the key 
+    dataVector.push_back(std::to_string(mapSeed));
+
+    //serialization for player position
+    keyVector.push_back(Util::getSerialID(position));//gets serial ID for position then adds an entry for map key
+    for (int index = 0; index < dataVector.size() - 1; index++)
+    {
+        dataVector.push_back(std::to_string(getCoords(index)));
+    }
+    file::fileExport(file::packageData(keyVector, dataVector));
 }
 
 void maze::generateMaze()
@@ -154,6 +171,9 @@ bool maze::runMaze(int coordX, int coordY, int coordZ)
             break;
         case 'x':
             Util::dialog(quit, Util::isError); // quit the game
+            loadX = playerX;
+            loadY = playerY;
+            loadZ = playerZ;
             return false;
             break;
         }
@@ -164,4 +184,22 @@ bool maze::runMaze(int coordX, int coordY, int coordZ)
     // Display the win message
     std::cout << "Congratulations, you won!\n";
     return true;
+}
+
+int maze::getCoords(int index)
+{
+    switch (index)
+    {
+    case 0:
+        return loadX;
+        break;
+    case 1:
+        return loadY;
+    case 2:
+        return loadZ;
+            break;
+    default:
+        Util::isError = true;
+        Util::dialog(fileError, Util::isError);
+    }
 }

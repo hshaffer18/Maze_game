@@ -20,6 +20,7 @@ private:
     void displayMaze(int x, int y, int z);
     bool movePlayer(int& x, int& y, int& z, int dx, int dy, int dz);
     bool runMaze(int coordX, int coordY, int coordZ);
+    int getCoords(int index);
 };
 
 #endif

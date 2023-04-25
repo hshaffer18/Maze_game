@@ -40,78 +40,49 @@ std::ifstream file::fileType(int type)
 void file::fileImport(int fileTypeID)
 {
     loadFile = true;//flips load file switch so the system knows a file has been loaded
-    //instantiation of all variables
-    // Open the file
-    ifstream file("data.csv");
-    // Read the first line to determine the data structure
-    string firstLine;
-    getline(file, firstLine);
-    stringstream strstream(firstLine);
-    vector<string> fieldVector;
-    string field;
-
-    while (getline(strstream, field, ','))//takes input through the string stream, pushes it into the string "field" then stops after each entery
+    ifstream file("data.csv");    // Open the data file
+    unordered_map<string, vector<string>> data;   // Create the data structure dynamically
+    //there is most likeley an easier way to do this
+    string line;
+    while (getline(file, line))    //while the file is open and able to be read
     {
-        fieldVector.push_back(field);//takes the string "field" and pushes it into "fieldVector"
-    }
-
-    // Create the data structure dynamically
-    unordered_map<string, vector<string>> data;
-    //while the file is open and able to be read
-    while (file.good())
-    {
-        string line;
-        getline(file, line);//takes input from file and pushes it into the string "line" this will read an entire line
-        stringstream ss(line);
-        string field;
-        int index = 0;
-        while (getline(ss, field, ','))
+        istringstream iss(line);
+        string key;
+        getline(iss, key, ':');
+        std::vector<string> valueVector;
+        std::string token, temp;
+        //This sorts through the file and assigns the data based on the position of the delimiter character ","
+        //the stores it in a vector to be used in the map
+        //This map will then be parsed and allocated when the parseData function is called
+        while(iss >> token)
         {
-            if (index >= fieldVector.size())
+            size_t pos = token.find(',');
+            while (pos != std::string::npos) 
             {
-                break;
+                valueVector.push_back(token.substr(0, pos));
+                token = token.substr(pos + 1);
+                pos = token.find(',');
             }
-            data[fieldVector[index]].push_back(field);//pushes items from the "fieldVector" into the map
-            index++;
+            valueVector.push_back(token);
         }
-    }
-    storeData(data, fieldVector);
-    file.close();
+        data[key] = valueVector; 
+    }   
+    file.close();//close file
 }
 
-void file::fileExport(map<string, vector<string>> exportData)
+void file::fileExport(map<string, vector<string>> exportData) //to call use fileExport(packageData(parserID, dataVector))
 {
     ofstream file("data.csv");
-}
 
-//will be in charge of reading and parsing data from files
-void file::storeData(unordered_map<string, vector<string>> dataMap, vector<std::string> keyVector)
-{
-    //implement switch statement to direct flow of data storage
-    //will run this function within a class with a file ID and a
-    //sub ID to identify what part of the document should be loaded
-    //or where in the file to save
-        for (int index = 0; index < dataMap[keyVector[0]].size(); index++)
+    for (const auto& key : exportData)
+    {
+        for (const auto& cell : key.second)
         {
-            for (string data : keyVector) 
-            {
-                //data is the key of the map and index is the entry
-                //in the dataFile "data" can be used as an identifier to be able to index the file for specific data
-                if (keyVector[index] == "seed" || keyVector[index] == "position")
-                {
-                    mazeMap.insert(pair<string, vector<string>>(keyVector[index], dataMap[keyVector[index]])); //pushes contents of data.csv into the mazeMap to be parsed
-                }
-                else if (keyVector[index] == "name" || keyVector[index] == "difficulty")
-                {
-                    playerMap.insert(pair<string, vector<string>>(keyVector[index], dataMap[keyVector[index]])); //pushes contents of data.csv into the playerMap to be parsed
-                }
-                else
-                {
-                    Util::isError = true;
-                    Util::dialog(fileError, Util::isError);
-                }
-            }
+            file << cell << ",";
         }
+        file << "\n";
+    }
+    file.close();//close file
 }
 
 string file::parseData(int parserID, int index)
@@ -136,27 +107,13 @@ string file::parseData(int parserID, int index)
         return "-1";
     }
 }
-
-map<string, vector<string>> file::packageData(int parserID, int index)
+ 
+map<string, vector<string>> file::packageData(vector<string> keyVector, vector<string> dataVector)//could have made this a void but I want to pass this function into another
 {
-    switch (parserID)
+    for (int index = 0; index < keyVector.size(); index++)//this gives an error because the size of keyVector is dynamic, if size works correctly this shouldnt be an issue
     {
-    case seed:
-        return mazeMap["seed"][index];
-        break;
-    case position:
-        return mazeMap["position"][index];
-        break;
-    case name:
-        return playerMap["name"][index];
-        break;
-    case difficulty:
-        return playerMap["difficulty"][index];
-        break;
-    default://if something unexpected is read an error will occur
-        Util::isError = true;
-        Util::dialog(fileError, Util::isError);
-        return "-1";
+        mergeMap[index] = keyVector;//dump data into a single static map
     }
+    return mergeMap;
 }
 
