@@ -187,6 +187,7 @@ bool maze::runMaze(int coordX, int coordY, int coordZ)
     return true;
 }
 
+/*
 int maze::getCoords(int index)
 {
     switch (index)
@@ -203,4 +204,5 @@ int maze::getCoords(int index)
         Util::isError = true;
         Util::dialog(fileError, Util::isError);
     }
+    */
 }
