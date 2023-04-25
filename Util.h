@@ -1,5 +1,6 @@
 #ifndef Util_H
 #define Util_H
+#include <string>
 
 enum dialogID { quit, help, start, load, delFile, profileID, badInput, endGame, splashScreen };
 enum errorID { indexError = 14, genericError = 15, fileError = 16 };
@@ -14,6 +15,7 @@ namespace Util
 	void scrClr();
 	int getInput();
 	void dialog(int dialogID, bool error);
+	std::string getSerialID(parserID dataID);
 }
 
 

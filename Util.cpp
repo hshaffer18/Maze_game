@@ -1,6 +1,5 @@
 #include "Util.h"
 #include <iostream>
-#include <string>
 #include <fstream>
 
 
@@ -107,5 +106,23 @@ void Util::dialog(int dialogID, bool error)
 
 			break;
 		}
+	}
+}
+
+std::string Util::getSerialID(parserID dataID)
+{
+	switch (dataID)
+	{
+	case seed:
+		return "seed";
+	case position:
+		return "position";
+	case name:
+		return "name";
+	case difficulty:
+		return "difficulty";
+	default:
+		isError = true;
+		dialog(indexError, isError);
 	}
 }
