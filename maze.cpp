@@ -204,5 +204,5 @@ int maze::getCoords(int index)
         Util::isError = true;
         Util::dialog(fileError, Util::isError);
     }
-    */
 }
+*/
