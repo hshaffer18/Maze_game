@@ -1,3 +1,20 @@
+/*-----------------------------------------------------------------------
+* Author: Hunter Shaffer
+* Instructor : Greg Paonessa
+* Class : Data Structures
+* Description : This is a maze game that is implemented into a modular
+* menu screen. This program is not yet finished as I still have to
+* implement profile.obj, as well as write the ui dialog. I have basic
+* commands at the moment which are
+* quit or -q: quits the program
+* help or -h: brings up help screen(this is actually written for a different program rn)
+* start or -s: starts the maze game
+*   w,a,s,d,q,e is for movement, good luck figuring out how it works
+*   x is used to quit the game
+* load:this is used to load a saved maze game(not fully implemented, currently does nothing but the framework is in file.cpp)
+* delFile:delete save file(not implemented yet)
+*Chat GPT 3.0
+*///---------------------------------------------------------------------
 #include "maze.h"
 #include "Util.h"
 //
