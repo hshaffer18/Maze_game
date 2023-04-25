@@ -70,6 +70,7 @@ void file::fileImport(int fileTypeID)
     file.close();//close file
 }
 
+/*
 void file::fileExport(map<string, vector<string>> exportData) //to call use fileExport(packageData(parserID, dataVector))
 {
     ofstream file("data.csv");
@@ -84,6 +85,7 @@ void file::fileExport(map<string, vector<string>> exportData) //to call use file
     }
     file.close();//close file
 }
+*/
 
 string file::parseData(int parserID, int index)
 {
@@ -108,6 +110,7 @@ string file::parseData(int parserID, int index)
     }
 }
  
+/*
 map<string, vector<string>> file::packageData(vector<string> keyVector, vector<string> dataVector)//could have made this a void but I want to pass this function into another
 {
     for (int index = 0; index < keyVector.size(); index++)//this gives an error because the size of keyVector is dynamic, if size works correctly this shouldnt be an issue
@@ -116,4 +119,4 @@ map<string, vector<string>> file::packageData(vector<string> keyVector, vector<s
     }
     return mergeMap;
 }
-
+*/
