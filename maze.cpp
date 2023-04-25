@@ -50,7 +50,7 @@ maze::~maze()
 {
     //Whenever the maze object is destroyed(exited or by force), a copy of the users position and map seed are
     //saved. These can then be recalled in a serialized manner to bring the user back to the last state
-
+    /*
     std::vector<std::string> keyVector, dataVector;//These will hold the keys for the data map to be exported
 
     //serialization for seed variable
@@ -64,6 +64,7 @@ maze::~maze()
         dataVector.push_back(std::to_string(getCoords(index)));
     }
     file::fileExport(file::packageData(keyVector, dataVector));
+    */
 }
 
 void maze::generateMaze()
