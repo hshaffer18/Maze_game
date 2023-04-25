@@ -16,9 +16,9 @@ namespace file
 	static std::map<std::string, std::vector<std::string>> playerMap, mazeMap, mergeMap;//these are static so that the data contained within remains persistant throughout execution(player and maze are input data and mergeData is for exporting
 	static bool loadFile;//Static because I want this to stay true as long as data is being read
 	void fileImport(int fileTypeID);
-	void fileExport(std::map<std::string, std::vector<std::string>> exportData);
+	//void fileExport(std::map<std::string, std::vector<std::string>> exportData);
 	extern std::string parseData(int parserID, int index);
-	std::map<std::string, std::vector<std::string>> packageData(std::vector<std::string> keyVector, std::vector<std::string> dataVector);
+	//std::map<std::string, std::vector<std::string>> packageData(std::vector<std::string> keyVector, std::vector<std::string> dataVector);
 };
 
 #endif
