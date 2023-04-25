@@ -124,5 +124,6 @@ std::string Util::getSerialID(parserID dataID)
 	default:
 		isError = true;
 		dialog(indexError, isError);
+		return NULL;
 	}
 }
